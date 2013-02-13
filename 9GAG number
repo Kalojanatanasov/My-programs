@@ -1,0 +1,201 @@
+//Problem 1 – 9Gag Numbers
+//In 9Gag we like fun. We have a lot of time and we play with fun pictures and fun stories. Recently we invented a funny way to express numbers. We use the following 9 digits:
+//0  -!
+//1	**
+//2	!!!
+//3	&&
+//4	&-
+//5	!-
+//6	*!!!
+//7	&*!
+//8	!!**!-
+//We write the numbers as sequences digits from our 9 available digits given above. The last digit of the number (the most right one) has a value as shown in the above table. The next digit on the left has a value 9 times bigger than the shown in the above table, the next digit on the left has 9*9 times bigger value than the shown in the table and so on. Your task is to write a program to convert a 9Gag-style number into its corresponding decimal representation.
+//Input
+//The input data consists of a single string – a 9Gag-style number.
+//The input data will always be valid and in the described format. There is no need to check it explicitly.
+//Output
+//The output data consists of a single line holding the calculated decimal representation of the given 9Gag-style number and should be printed at the console.
+//Constraints
+//•	The input number will have between 1 and 20 digits.
+//•	Allowed working time for your program: 0.1 seconds.
+//•	Allowed memory: 16 MB.
+//Examples
+//Input	Output		Input	Output		Input	Output		Input	Output
+//*!!!	6		***!!!	15		!!!**!-	176		!!**!--!!-	653
+
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Numerics;
+ 
+namespace ConsoleApplication3
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string number = Console.ReadLine();
+           List< char> never = new List<char>(number.ToCharArray());
+           List< int> ncounted = new List<int>();
+             
+            
+           int count = 0;
+           BigInteger sum=0;
+            SortMethod(never, ncounted, number, count,ref sum);
+            Console.WriteLine(sum);
+        }
+ 
+        private static BigInteger SortMethod(List<char> never, List<int> ncounted, string number, int count, ref BigInteger sum)
+        {
+            int i;
+            for (i = number.Length; i > 0.1; )
+            {
+                 
+             
+            if (never[0] == '-' && never[1] == '!')
+            {
+                ncounted.Add(0);
+                never.Remove('-');
+                never.Remove('!');
+                i--;
+                i--;
+                count++;
+                continue;
+                 
+            }
+            if (never[0] == '*' && never[1] == '*')
+            {
+                ncounted.Add(1);
+                never.Remove('*');
+                never.Remove('*');
+                i--;
+                i--;
+                count++;
+                continue;
+                
+            }
+               
+            if (never[0] == '!' && never[1] == '!' && never[2] == '!')
+            {
+                ncounted.Add(2);
+                never.Remove('!');
+                never.Remove('!');
+                never.Remove('!');
+                i--;
+                i--;
+                i--;
+                count++;
+                continue;
+                 
+            }
+            if (never[0] == '&' && never[1] == '&')
+            {
+                ncounted.Add(3);
+                never.Remove('&');
+                never.Remove('&');
+                i--;
+                i--;
+                count++;
+                continue;
+                
+            }
+            if (never[0] == '&' && never[1] == '-')
+            {
+                ncounted.Add(4);
+                never.Remove('&');
+                never.Remove('-');
+                i--;
+                i--;
+                count++;
+                continue;
+                
+            }
+            if (never[0] == '!' && never[1] == '-')
+            {
+                ncounted.Add(5);
+                never.Remove('!');
+                never.Remove('-');
+                i--;
+                i--;
+                count++;
+                continue;
+                 
+            }
+            if (never[0] == '*' && never[1] == '!' && never[2] == '!' && never[3] == '!')
+            {
+                ncounted.Add(6);
+                never.Remove('*');
+                never.Remove('!');
+                never.Remove('!');
+                never.Remove('!');
+                i--;
+                i--;
+                i--;
+                i--;
+                count++;
+                continue;
+            
+            }
+            if (never[0] == '&' && never[1] == '*' && never[2] == '!')
+            {
+                ncounted.Add(7);
+                never.Remove('&');
+                never.Remove('*');
+                never.Remove('!');
+                i--;
+                i--;
+                i--;
+                count++;
+                continue;
+                 
+            }
+            if (never[0] == '!' && never[1] == '!' && never[2] == '*' && never[3] == '*' && never[4] == '!' && never[5] == '-')
+            {
+                ncounted.Add(8);
+                never.Remove('!');
+                never.Remove('!');
+                never.Remove('*');
+                never.Remove('*');
+                never.Remove('!');
+                never.Remove('-');
+                i--;
+                i--;
+                i--;
+                i--;
+                i--;
+                i--;
+                count++;
+                continue;
+                
+            }
+                }
+ 
+            BigInteger power = 1;
+            for (int j = 0; j < count-1; j++)
+            {
+                power *= 9;
+            }
+ 
+ 
+          //  for (int j = 0; j < count; j++)
+          //  {
+          //     sum = sum + ncounted[j] * (BigInteger)Math.Pow(9, count-j-1);
+          //  }
+            for (int j = 0; j < count; j++)
+                 {
+                     if (count - j == 1)
+                     { sum = sum + ncounted[j];
+                     continue;
+                     }
+                   sum = sum + ncounted[j] * power;
+                   power = power / 9;
+                 }
+ 
+            return sum;
+            
+        }
+    }
+ }
